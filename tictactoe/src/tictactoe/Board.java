@@ -54,9 +54,13 @@ public class Board
         	{
         		for(int col = 0; col < grid[0].length; col++)
         		{
-        			
+        			if(col < 2) boardContents += grid[row][col] + ",";
+        			else boardContents += this.grid[row][col];
         		}
+        		if(row < 2) boardContents += "\n";
         	}
+        	writer.write(boardContents);
+        	writer.close();
     	}
     	catch(Exception error)
     	{
@@ -64,6 +68,8 @@ public class Board
     	}
     
     }
+    
+    
     
     
     /***These are the methods used to test those above***/
