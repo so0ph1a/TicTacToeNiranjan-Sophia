@@ -59,16 +59,20 @@ public class Board
     //create a random board
     public void createRandomBoard()
     {
+    	char[] options = {'E', 'X', 'O'};
+    	
     	
     }
     
     //clears the grid by placing E in every cell
     public void clearBoard()
     {
-    	char clearedBoard[][] = {{ 'E', 'E', 'E'},
+    	char clearedBoard[][] = {{'E', 'E', 'E'},
     							 {'E', 'E', 'E'},
     							 {'E', 'E', 'E'}};
-    	}
+    	this.grid = clearedBoard;
+    	this.saveBoardToFile();
+    	
     
     }
     
