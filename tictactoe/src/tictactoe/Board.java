@@ -53,6 +53,10 @@ public class Board
     //prints the current grid
     public void printGrid()
     {
+    	for(int row = 0; row > grid.length; row++)
+    	{
+    		
+    	}
     	
     }
     
