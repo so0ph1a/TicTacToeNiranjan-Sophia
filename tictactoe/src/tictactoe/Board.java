@@ -44,7 +44,24 @@ public class Board
     //saves the grid to the file in the proper format (CSV)
     public void saveBoardToFile()
     {
-    	
+    	try
+    	{
+    		File file = new File("scr/tictactoe/"+this.filename);
+        	FileWriter writer = new FileWriter(file);
+        	String boardContents = "";
+        	
+        	for(int row = 0; row > grid.length; row++)
+        	{
+        		for(int col = 0; col < grid[0].length; col++)
+        		{
+        			
+        		}
+        	}
+    	}
+    	catch(Exception error)
+    	{
+    		error.printStackTrace();
+    	}
     
     }
     
