@@ -16,9 +16,16 @@ public class Board
     //non-default constructor - [5 points]
     public Board(String filename)
     {
-    	 //set the file name
+    	//set the file name
+    	this.filename = filename;
        //if the board is valid then create the 3x3 grid
+    	if(isValidBoardFile())
+    	{
+    		this.grid = new char[3][3];
+    	}
+    			
        //and load the board from the file
+    	loadBoardFromFile();
     }
     
     //loads the grid with the file contents - [5 points]
