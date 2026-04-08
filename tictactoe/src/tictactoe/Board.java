@@ -165,6 +165,7 @@ public class Board
 
     public char[][] getGrid()
 
+    
     public void setGrid(char[][] newGrid)
     
     public static void main(String args[])
