@@ -156,8 +156,12 @@ public class Board
     {
     	return board[row][col];
     }
-
+    
     public void setCell(int row, int col, char player)
+    {
+    	return board[row][col] = player;
+    }
+
 
     public char[][] getGrid()
 
