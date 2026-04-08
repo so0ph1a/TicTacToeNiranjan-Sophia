@@ -160,11 +160,13 @@ public class Board
     public void setCell(int row, int col, char player)
     {
     	return board[row][col] = player;
+    	
+    	saveBoardToFile();
     }
 
 
     public char[][] getGrid()
-    {s
+    {
     	return grid;
     }
 
