@@ -164,6 +164,9 @@ public class Board
 
 
     public char[][] getGrid()
+    {
+    	return grid;
+    }
 
     
     public void setGrid(char[][] newGrid)
