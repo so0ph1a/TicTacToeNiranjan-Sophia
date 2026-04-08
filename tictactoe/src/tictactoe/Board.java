@@ -164,7 +164,7 @@ public class Board
 
 
     public char[][] getGrid()
-    {
+    {s
     	return grid;
     }
 
