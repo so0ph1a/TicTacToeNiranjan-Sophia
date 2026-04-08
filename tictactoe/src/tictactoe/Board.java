@@ -170,6 +170,9 @@ public class Board
 
     
     public void setGrid(char[][] newGrid)
+    {
+    	grid = newGrid;
+    }
     
     public static void main(String args[])
     {
