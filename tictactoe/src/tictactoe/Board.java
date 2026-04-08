@@ -152,6 +152,17 @@ public class Board
     
     }
     
+    public char getCell(int row, int col)
+    {
+    	return board[row][col];
+    }
+
+    public void setCell(int row, int col, char player)
+
+    public char[][] getGrid()
+
+    public void setGrid(char[][] newGrid)
+    
     public static void main(String args[])
     {
     	Board b = new Board("board.csv");
