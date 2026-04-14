@@ -41,6 +41,28 @@ public class GameLogic
     	return false;
     }
 	
+	public boolean isDraw(Board board) 
+	{
+		if (checkWin(board, 'X')|| checkWin(board, 'O'))
+		{
+			return false;
+		}
+		
+		for (int r = 0; r < size; r++)
+		{
+			for (int c = 0; c < size; c++)
+			{
+				if (board.getPiece(r,c) == 'E')
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+		
+		
+	}
+	
 
 	
 	
