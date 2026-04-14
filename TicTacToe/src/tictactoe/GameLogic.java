@@ -48,11 +48,11 @@ public class GameLogic
 			return false;
 		}
 		
-		for (int r = 0; r < size; r++)
+		for (char[]row : board.getGrid())
 		{
-			for (int c = 0; c < size; c++)
+			for (char cell : row)
 			{
-				if (board.getPiece(r,c) == 'E')
+				if (cell == 'E')
 				{
 					return false;
 				}
