@@ -41,6 +41,11 @@ public class GameLogic
     	return false;
     }
 	
+	
+	public boolean isGameOver(Board board)
+	{
+		return checkWin('X') || checkWin('O') || isDraw();
+	}
 
 	
 	
