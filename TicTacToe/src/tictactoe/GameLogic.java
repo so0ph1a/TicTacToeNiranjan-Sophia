@@ -41,11 +41,36 @@ public class GameLogic
     	return false;
     }
 	
+<<<<<<< HEAD
 	
 	public boolean isGameOver(Board board)
 	{
 		return checkWin('X') || checkWin('O') || isDraw();
 	}
+=======
+	public boolean isDraw(Board board) 
+	{
+		if (checkWin(board, 'X')|| checkWin(board, 'O'))
+		{
+			return false;
+		}
+		
+		for (int r = 0; r < size; r++)
+		{
+			for (int c = 0; c < size; c++)
+			{
+				if (board.getPiece(r,c) == 'E')
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+		
+		
+	}
+	
+>>>>>>> 8d3214115f4761235954e165ddd55132213a45d5
 
 	
 	
