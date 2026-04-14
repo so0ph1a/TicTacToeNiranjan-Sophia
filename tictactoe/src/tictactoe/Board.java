@@ -160,6 +160,8 @@ public class Board
     public void setCell(int row, int col, char player)
     {
     	return board[row][col] = player;
+    	
+    	saveBoardToFile();
     }
 
 
@@ -171,6 +173,9 @@ public class Board
     
     
     public void setGrid(char[][] newGrid)
+    {
+    	grid = newGrid;
+    }
     
     public static void main(String args[])
     {
