@@ -94,7 +94,7 @@ public class GameLogic
 	
 	public boolean makeMove(Board board, int row, int col)
 	{
-		if(board.isValidBoardFile() && row >= 0 && board.getCell() == 'E')
+		if(board.isValidBoardFile() && row >= 0 && row <= 2 && col >= 0 && col <= 2 && board.getCell(row, col) == 'E')
 		{
 			char player = getCurrentPlayer(board);
 		}
