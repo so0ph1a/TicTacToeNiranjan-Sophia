@@ -41,11 +41,9 @@ public class GameLogic
     	return false;
     }
 	
-
-	
 	public boolean isGameOver(Board board)
 	{
-		return checkWin('X') || checkWin('O') || isDraw();
+		return checkWin(board, 'X') || checkWin(board, 'O') || isDraw(board);
 	}
 
 	public boolean isDraw(Board board) 
