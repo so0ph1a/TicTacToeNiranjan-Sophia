@@ -97,11 +97,12 @@ public class GameLogic
 		if(board.isValidBoardFile() && row >= 0 && row <= 2 && col >= 0 && col <= 2 && board.getCell(row, col) == 'E')
 		{
 			char player = getCurrentPlayer(board);
+			board.setCell(row, col, player);
+			
+			return true;
 		}
 		
-		board.setCell(row, col, player);
-		
-		saveBoardToFile(board);
+		return false;
 	}
 
 
