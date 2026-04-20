@@ -68,6 +68,30 @@ public class GameLogic
 		
 	}
 	
+	public char getCurrentPlayer(Board board)
+	{
+		int xCount = 0;
+		int oCount = 0;
+		
+		for(int i = 0; i < board.getSize(); i++)
+		{
+			for(int j = 0; j < board.getSize(); j++)
+			{
+				char cell = board.getCell(i, j);
+				
+				if(cell == 'X')
+				{
+					xCount++;
+				}
+				else if(cell == 'O')
+				{
+					oCount++;
+				}
+				
+			}
+		}
+	}
+	
 
 
 	
