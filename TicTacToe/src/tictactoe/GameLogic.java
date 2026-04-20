@@ -92,6 +92,17 @@ public class GameLogic
 		}
 	}
 	
+	public boolean makeMove(Board board, int row, int col)
+	{
+		if(board.isValidBoardFile() && row >= 0 &&)
+		{
+			char player = getCurrentPlayer(board);
+		}
+		
+		board.setCell(row, col, player);
+		
+		saveBoardToFile(board);
+	}
 
 
 	
