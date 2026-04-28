@@ -29,16 +29,29 @@ public class Board
     }
     
     //loads the grid with the file contents - [5 points]
-    public void loadBoardFromFile()
+    public void loadBoardFromFile() 
     {
+    	try {
+    		File file = new File("src/tictactoe/" + filename);
+    		Scanner scanner = new Scanner(file);
 
-        //Use a scanner to read the board file
-        //and populate the grid with the board values
-        //remember to close the scanner afterwards 
-        //use isValidBoard method as a guide
-    	
+    		int row = 0;
+    		while (scanner.hasNextLine()) 
+    		{
+    			String[] values = scanner.nextLine().split(",");
+    			for (int col = 0; col < 3; col++) 
+    			{
+    			grid[row][col] = values[col].charAt(0);
+    			}
+    			row++;
+    		}
+    		scanner.close();
+    	} 
+    	catch (Exception e) 
+    	{
+    		e.printStackTrace();
+    	}
     }
-
     
     //valid if it resembles a 3x3 board that contains only E, X, O
     public boolean isValidBoardFile()
