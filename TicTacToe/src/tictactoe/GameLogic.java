@@ -73,9 +73,9 @@ public class GameLogic
 		int xCount = 0;
 		int oCount = 0;
 		
-		for(int i = 0; i < board.getSize(); i++)
+		for(int i = 0; i < 3; i++)
 		{
-			for(int j = 0; j < board.getSize(); j++)
+			for(int j = 0; j < 3; j++)
 			{
 				char cell = board.getCell(i, j);
 				

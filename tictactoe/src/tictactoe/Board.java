@@ -23,6 +23,10 @@ public class Board
     	{
     		this.grid = new char[3][3];
     	}
+    	else
+    	{
+    		this.grid = new char[3][3];
+    	}
     			
        //and load the board from the file
     	loadBoardFromFile();
@@ -41,7 +45,7 @@ public class Board
     			String[] values = scanner.nextLine().split(",");
     			for (int col = 0; col < 3; col++) 
     			{
-    			grid[row][col] = values[col].charAt(0);
+    				grid[row][col] = values[col].charAt(0);
     			}
     			row++;
     		}
@@ -167,12 +171,12 @@ public class Board
     
     public char getCell(int row, int col)
     {
-    	return board[row][col];
+    	return grid[row][col];
     }
     
     public void setCell(int row, int col, char player)
     {
-    	return board[row][col] = player;
+    	grid[row][col] = player;
     	
     	saveBoardToFile();
     }
