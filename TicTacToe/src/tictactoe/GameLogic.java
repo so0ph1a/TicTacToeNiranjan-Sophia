@@ -23,21 +23,17 @@ public class GameLogic
     				
     	}
     	
-    	for(int i = 0; i < 3; i++)
+    	if(board.getCell(0, 0) == player && board.getCell(1, 1) == player && board.getCell(2, 2) == player)
     	{
-    		if(board.getCell(0, 0) == player && board.getCell(1, 1) == player && board.getCell(2, 2) == player)
-    		{
-    			return true;
-    		}
+    		return true;
     	}
+   
     	
-    	for(int i = 0; i < 3; i++)
+    	if(board.getCell(0, 2) == player && board.getCell(1, 1) == player && board.getCell(2, 0) == player)
     	{
-    		if(board.getCell(0, 2) == player && board.getCell(1, 1) == player && board.getCell(2, 0) == player)
-    		{
-    			return true;
-    		}
+    		return true;
     	}
+  
     	return false;
     }
 	
@@ -64,8 +60,6 @@ public class GameLogic
 			}
 		}
 		return true;
-		
-		
 	}
 	
 	public char getCurrentPlayer(Board board)
@@ -87,9 +81,16 @@ public class GameLogic
 				{
 					oCount++;
 				}
-				
 			}
 		}
+		if(xCount <= oCount)
+        {
+            return 'X';
+        }
+        else
+        {
+            return 'O';
+        }
 	}
 	
 	public boolean makeMove(Board board, int row, int col)

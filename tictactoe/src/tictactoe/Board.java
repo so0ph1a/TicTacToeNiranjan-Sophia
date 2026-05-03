@@ -45,7 +45,7 @@ public class Board
     			String[] values = scanner.nextLine().split(",");
     			for (int col = 0; col < 3; col++) 
     			{
-    				grid[row][col] = values[col].charAt(0);
+    				grid[row][col] = values[col].trim().charAt(0);
     			}
     			row++;
     		}
@@ -73,12 +73,12 @@ public class Board
     				scanner.close(); return false;
     			}
     			//count X and O
-    			if(line.charAt(4) == 'x') xCount++;
-    			if(line.charAt(2) == 'x') xCount++;
-    			if(line.charAt(0) == 'x') xCount++;
-    			if(line.charAt(4) == 'o') oCount++;
-    			if(line.charAt(2) == 'o') oCount++;
-    			if(line.charAt(0) == 'o') oCount++;
+    			if(line.charAt(4) == 'X') xCount++;
+    			if(line.charAt(2) == 'X') xCount++;
+    			if(line.charAt(0) == 'X') xCount++;
+    			if(line.charAt(4) == 'O') oCount++;
+    			if(line.charAt(2) == 'O') oCount++;
+    			if(line.charAt(0) == 'O') oCount++;
     		}
     		scanner.close();
     		return xCount == oCount || xCount == oCount + 1;
@@ -100,11 +100,11 @@ public class Board
     {
     	try
     	{
-    		File file = new File("scr/tictactoe/"+this.filename);
+    		File file = new File("src/tictactoe/"+ this.filename);
         	FileWriter writer = new FileWriter(file);
         	String boardContents = "";
         	
-        	for(int row = 0; row > grid.length; row++)
+        	for(int row = 0; row < grid.length; row++)
         	{
         		for(int col = 0; col < grid[0].length; col++)
         		{
@@ -130,7 +130,7 @@ public class Board
     //prints the current grid
     public void printGrid()
     {
-    	for(int row = 0; row > grid.length; row++)
+    	for(int row = 0; row < grid.length; row++)
     	{
     		for(int col = 0; col < grid[0].length; col++)
     		{
