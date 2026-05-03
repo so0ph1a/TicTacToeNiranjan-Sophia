@@ -5,50 +5,48 @@ import java.awt.*;
 
 public class LeaderboardUI extends JFrame {
 
-    private final Color CREAM = new Color(255, 253, 208);
-    private final Color GREEN = new Color(0, 120, 0);
+	public LeaderboardUI(Leaderboard lb) {
 
-    public LeaderboardUI(Leaderboard leaderboard) {
+		setTitle("Leaderboard");
+		setSize(300, 400);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLayout(new BorderLayout()); // IMPORTANT FIX
 
-        setTitle("Leaderboard");
-        setSize(350, 450);
-        setLocationRelativeTo(null);
+		JTextArea area = new JTextArea();
+		area.setEditable(false);
+		area.setForeground(Color.BLACK);
+		area.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        JPanel root = new JPanel(new BorderLayout());
-        root.setBackground(CREAM);
+		StringBuilder sb = new StringBuilder();
+		sb.append("LEADERBOARD\n\n");
 
-        JTextArea area = new JTextArea();
-        area.setEditable(false);
-        area.setFont(new Font("Monospaced", Font.PLAIN, 16));
-        area.setBackground(CREAM);
+		for (String player : lb.getAllPlayers()) {
+			sb.append(player).append(" : ").append(lb.getWins(player)).append("\n");
+		}
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("LEADERBOARD\n\n");
+		area.setText(sb.toString());
 
-        for (String player : leaderboard.getAllPlayers()) {
-            sb.append(player)
-              .append(" : ")
-              .append(leaderboard.getWins(player))
-              .append("\n");
-        }
+		JButton back = new JButton("Back to Home");
 
-        area.setText(sb.toString());
+		style(back);
 
-        // bottom button
-        JButton home = new JButton("Back to Home");
-        home.setBackground(GREEN);
-        home.setForeground(Color.WHITE);
+		back.addActionListener(e -> {
+			dispose(); // close leaderboard safely
+			SwingUtilities.invokeLater(() -> new WelcomeUI(lb)); // safe UI thread
+		});
 
-        home.addActionListener(e -> {
-            dispose();
-            new WelcomeUI();
-        });
+		add(new JScrollPane(area), BorderLayout.CENTER);
+		add(back, BorderLayout.SOUTH);
 
-        root.add(new JScrollPane(area), BorderLayout.CENTER);
-        root.add(home, BorderLayout.SOUTH);
+		setVisible(true);
+	}
 
-        add(root);
-
-        setVisible(true);
-    }
+	private void style(JButton b) {
+		b.setForeground(Color.BLACK);
+		b.setBackground(Color.WHITE);
+		b.setOpaque(true);
+		b.setContentAreaFilled(true);
+		b.setFocusPainted(false);
+	}
 }

@@ -4,13 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Simple in-memory leaderboard for Tic Tac Toe.
- * Stores player wins using normalized names as keys.
- */
 public class Leaderboard {
 
-    // Key = normalized player name, Value = total wins
+    // Key = trimmed EXACT name (case-sensitive, space-safe)
     private final HashMap<String, Integer> winsByPlayer;
 
     public Leaderboard() {
@@ -18,53 +14,60 @@ public class Leaderboard {
     }
 
     /**
-     * Normalizes names so duplicates like " Alex ", "alex", and "ALEX"
-     * are treated as the same player.
+     * Clean input ONLY removes spaces, keeps case intact.
      */
-    private String normalizeName(String playerName) {
-        if (playerName == null) {
-            return "";
-        }
-        return playerName.trim().toLowerCase();
+    private String clean(String name) {
+        if (name == null) return "";
+        return name.trim();
     }
 
     /**
-     * Adds one win to the given player.
+     * Add player if not already exists (case-sensitive, space-insensitive).
+     */
+    public void ensurePlayer(String name) {
+        String key = clean(name);
+
+        if (key.isEmpty()) return;
+
+        if (!winsByPlayer.containsKey(key)) {
+            winsByPlayer.put(key, 0);
+        }
+    }
+
+    /**
+     * Checks duplicate using trimmed version only.
+     */
+    public boolean playerExists(String name) {
+        String key = clean(name);
+
+        return winsByPlayer.containsKey(key);
+    }
+
+    /**
+     * Adds win to exact stored player.
      */
     public void addWin(String playerName) {
-        String normalized = normalizeName(playerName);
+        String key = clean(playerName);
 
-        // Ignore empty names after normalization
-        if (normalized.isEmpty()) {
-            return;
-        }
+        if (key.isEmpty()) return;
 
-        int currentWins = winsByPlayer.getOrDefault(normalized, 0);
-        winsByPlayer.put(normalized, currentWins + 1);
+        int current = winsByPlayer.getOrDefault(key, 0);
+        winsByPlayer.put(key, current + 1);
     }
 
     /**
-     * Returns how many wins this player has.
+     * Gets wins for exact stored player.
      */
     public int getWins(String playerName) {
-        String normalized = normalizeName(playerName);
-        return winsByPlayer.getOrDefault(normalized, 0);
+        String key = clean(playerName);
+        return winsByPlayer.getOrDefault(key, 0);
     }
 
-    /**
-     * Returns all player names currently in the leaderboard.
-     * Useful for display in Swing UI.
-     */
     public Set<String> getAllPlayers() {
         return winsByPlayer.keySet();
     }
 
-    /**
-     * Returns the full score map for display purposes.
-     * (Read-only view to avoid accidental direct edits.)
-     */
     public Map<String, Integer> getAllScores() {
         return new HashMap<>(winsByPlayer);
     }
 }
-

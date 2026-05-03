@@ -5,143 +5,158 @@ import javax.swing.*;
 
 public class SwingUI extends JFrame {
 
-    private final String player1Name;
-    private final String player2Name;
+	private final String player1Name;
+	private final String player2Name;
 
-    private final Board board;
-    private final GameLogic logic;
-    private final Leaderboard leaderboard;
+	private final Board board;
+	private final GameLogic logic;
+	private final Leaderboard leaderboard;
 
-    private final JLabel statusLabel = new JLabel("", JLabel.CENTER);
-    private final JButton[][] cells = new JButton[3][3];
+	private final JLabel statusLabel = new JLabel("", JLabel.CENTER);
+	private final JButton[][] cells = new JButton[3][3];
 
-    private final Color CREAM = new Color(255, 253, 208);
-    private final Color GREEN = new Color(0, 120, 0);
+	public SwingUI(String p1, String p2, Leaderboard lb) {
+		this.player1Name = p1;
+		this.player2Name = p2;
+		this.leaderboard = lb;
 
-    public SwingUI(String p1, String p2, Leaderboard lb) {
-        this.player1Name = p1;
-        this.player2Name = p2;
-        this.leaderboard = lb;
+		this.board = new Board("board.csv");
+		this.logic = new GameLogic();
 
-        this.board = new Board("board.csv");
-        this.logic = new GameLogic();
+		buildUi();
+		startNewGame();
 
-        buildUi();
-        startNewGame();
+		setVisible(true);
+	}
 
-        setVisible(true);
-    }
+	private void buildUi() {
+		setTitle("Tic Tac Toe");
+		setSize(520, 600);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
 
-    private void buildUi() {
-        setTitle("Tic Tac Toe");
-        setSize(550, 650);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+		JPanel root = new JPanel(new BorderLayout());
+		root.setBackground(new Color(255, 253, 208));
 
-        JPanel root = new JPanel(new BorderLayout());
-        root.setBackground(CREAM);
+		statusLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		statusLabel.setForeground(Color.BLACK);
 
-        // TURN LABEL
-        statusLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        statusLabel.setForeground(GREEN);
-        statusLabel.setOpaque(true);
-        statusLabel.setBackground(CREAM);
+		JPanel grid = new JPanel(new GridLayout(3, 3, 5, 5));
+		grid.setBackground(new Color(255, 253, 208));
 
-        // GRID
-        JPanel grid = new JPanel(new GridLayout(3, 3, 5, 5));
-        grid.setBackground(CREAM);
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				JButton btn = new JButton("");
 
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
+				styleButton(btn);
 
-                JButton btn = new JButton("");
-                btn.setFont(new Font("Arial", Font.BOLD, 45));
-                btn.setForeground(Color.BLACK);
-                btn.setBackground(Color.WHITE);
+				int row = r;
+				int col = c;
 
-                int row = r;
-                int col = c;
+				btn.addActionListener(e -> handleMove(row, col));
 
-                btn.addActionListener(e -> handleMove(row, col));
+				cells[r][c] = btn;
+				grid.add(btn);
+			}
+		}
 
-                cells[r][c] = btn;
-                grid.add(btn);
-            }
-        }
+		JButton home = new JButton("Cancel / Home");
+		styleButton(home);
 
-        // BOTTOM BUTTON (HOME)
-        JPanel bottom = new JPanel();
-        bottom.setBackground(CREAM);
+		home.addActionListener(e -> {
+			dispose();
+			new WelcomeUI(leaderboard);
+		});
 
-        JButton homeBtn = new JButton("Cancel / Return Home");
-        homeBtn.setBackground(GREEN);
-        homeBtn.setForeground(Color.WHITE);
+		JPanel bottom = new JPanel();
+		bottom.setBackground(new Color(255, 253, 208));
+		bottom.add(home);
 
-        homeBtn.addActionListener(e -> {
-            dispose();
-            new WelcomeUI();
-        });
+		root.add(statusLabel, BorderLayout.NORTH);
+		root.add(grid, BorderLayout.CENTER);
+		root.add(bottom, BorderLayout.SOUTH);
 
-        bottom.add(homeBtn);
+		add(root);
+	}
 
-        root.add(statusLabel, BorderLayout.NORTH);
-        root.add(grid, BorderLayout.CENTER);
-        root.add(bottom, BorderLayout.SOUTH);
+	private void styleButton(JButton b) {
+		b.setForeground(Color.BLACK);
+		b.setBackground(Color.WHITE);
+		b.setOpaque(true);
+		b.setContentAreaFilled(true);
+		b.setFocusPainted(false);
+	}
 
-        add(root);
-    }
+	private void startNewGame() {
+		board.clearBoard();
 
-    private void startNewGame() {
-        board.clearBoard();
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				cells[r][c].setText("");
+				cells[r][c].setEnabled(true);
+			}
+		}
 
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                cells[r][c].setText("");
-                cells[r][c].setEnabled(true);
-            }
-        }
+		refreshUI();
+	}
 
-        refreshUI();
-    }
+	private void handleMove(int r, int c) {
 
-    private void handleMove(int r, int c) {
+		if (logic.isGameOver(board))
+			return;
+		if (board.getCell(r, c) != 'E')
+			return;
 
-        if (logic.isGameOver(board)) return;
+		logic.makeMove(board, r, c);
 
-        if (!logic.makeMove(board, r, c)) return;
+		refreshUI();
 
-        refreshUI();
+		if (logic.checkWin(board, 'X')) {
+			leaderboard.addWin(player1Name);
+			endGame(player1Name + " (X) wins!");
+		} else if (logic.checkWin(board, 'O')) {
+			leaderboard.addWin(player2Name);
+			endGame(player2Name + " (O) wins!");
+		} else if (logic.isDraw(board)) {
+			endGame("Draw!");
+		}
+	}
 
-        if (logic.checkWin(board, 'X')) {
-            leaderboard.addWin(player1Name);
-            endGame(player1Name + " (X) wins!");
-        }
-        else if (logic.checkWin(board, 'O')) {
-            leaderboard.addWin(player2Name);
-            endGame(player2Name + " (O) wins!");
-        }
-        else if (logic.isDraw(board)) {
-            endGame("Draw!");
-        }
-    }
+	private void refreshUI() {
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				char v = board.getCell(r, c);
+				cells[r][c].setText(v == 'E' ? "" : String.valueOf(v));
+			}
+		}
 
-    private void refreshUI() {
+		char turn = logic.getCurrentPlayer(board);
+		String name = (turn == 'X') ? player1Name : player2Name;
 
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                char val = board.getCell(r, c);
-                cells[r][c].setText(val == 'E' ? "" : String.valueOf(val));
-            }
-        }
+		statusLabel.setText(name + "'s Turn (" + turn + ")");
+	}
 
-        char turn = logic.getCurrentPlayer(board);
-        String name = (turn == 'X') ? player1Name : player2Name;
+	private void endGame(String msg) {
 
-        statusLabel.setText(name + "'s Turn (" + turn + ")");
-    }
+		JOptionPane.showMessageDialog(this, msg);
 
-    private void endGame(String msg) {
-        JOptionPane.showMessageDialog(this, msg);
-        startNewGame();
-    }
+		Object[] options = { "Play Again", "Home", "Leaderboard" };
+
+		int choice = JOptionPane.showOptionDialog(this, "What next?", "Game Over", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+		if (choice == 0) {
+			startNewGame();
+		}
+
+		else if (choice == 1) {
+			dispose();
+			new WelcomeUI(leaderboard);
+		}
+
+		else if (choice == 2) {
+			dispose(); // 🔥 THIS FIXES YOUR PROBLEM
+			new LeaderboardUI(leaderboard);
+		}
+	}
 }

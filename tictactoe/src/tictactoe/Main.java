@@ -4,6 +4,7 @@ import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new WelcomeUI());
+        Leaderboard leaderboard = new Leaderboard();
+        SwingUtilities.invokeLater(() -> new WelcomeUI(leaderboard));
     }
 }

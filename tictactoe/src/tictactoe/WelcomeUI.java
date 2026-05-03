@@ -2,67 +2,144 @@ package tictactoe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
 public class WelcomeUI extends JFrame {
 
-    private final JTextField p1 = new JTextField();
-    private final JTextField p2 = new JTextField();
+    private final Leaderboard leaderboard;
 
-    private final Leaderboard leaderboard = new Leaderboard();
+    private final JTextField p1New = new JTextField();
+    private final JTextField p2New = new JTextField();
 
-    private final Color CREAM = new Color(255, 253, 208);
-    private final Color GREEN = new Color(0, 120, 0);
+    private final JComboBox<String> p1Select = new JComboBox<>();
+    private final JComboBox<String> p2Select = new JComboBox<>();
 
-    public WelcomeUI() {
+    public WelcomeUI(Leaderboard lb) {
+        this.leaderboard = lb;
 
         setTitle("Tic Tac Toe");
-        setSize(400, 300);
+        setSize(450, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel root = new JPanel(new GridLayout(5, 1));
-        root.setBackground(CREAM);
+        JPanel root = new JPanel(new GridLayout(7, 1, 5, 5));
+        root.setBackground(new Color(255, 253, 208));
 
-        JLabel title = new JLabel("WELCOME TO TIC-TAC-TOE!", JLabel.CENTER);
+        JLabel title = new JLabel("WELCOME", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 18));
-        title.setForeground(GREEN);
+        title.setForeground(Color.BLACK);
 
-        JButton play = new JButton("PLAY!");
-        JButton lb = new JButton("LEADERBOARD");
+        // Load existing players into dropdowns
+        refreshDropdowns();
 
-        play.setBackground(GREEN);
-        play.setForeground(Color.WHITE);
+        JButton play = new JButton("PLAY");
+        JButton leaderboardBtn = new JButton("LEADERBOARD");
 
-        lb.setBackground(GREEN);
-        lb.setForeground(Color.WHITE);
+        style(play);
+        style(leaderboardBtn);
 
-        p1.setBorder(BorderFactory.createTitledBorder("Player 1 (X)"));
-        p2.setBorder(BorderFactory.createTitledBorder("Player 2 (O)"));
+        // PLAY BUTTON
+        play.addActionListener(e -> {
 
-        play.addActionListener(e -> startGame());
-        lb.addActionListener(e -> new LeaderboardUI(leaderboard));
+        	String player1 = getPlayerName(p1Select, p1New).trim();
+        	String player2 = getPlayerName(p2Select, p2New).trim();
+
+            if (player1.isEmpty() || player2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter both player names!");
+                return;
+            }
+            if (player1.equals(player2)) {
+                JOptionPane.showMessageDialog(this,
+                        "Both players cannot have the same name. Please choose different names.");
+                return;
+            }
+
+            // 🔴 FIX GOES HERE (duplicate typed-name protection)
+
+            boolean p1TypedNew = !p1New.getText().trim().isEmpty();
+            boolean p2TypedNew = !p2New.getText().trim().isEmpty();
+
+            if (p1TypedNew && leaderboard.playerExists(player1)) {
+                JOptionPane.showMessageDialog(this,
+                        "User already taken. Please pick a new name or select from existing players.");
+                return;
+            }
+
+            if (p2TypedNew && leaderboard.playerExists(player2)) {
+                JOptionPane.showMessageDialog(this,
+                        "User already taken. Please pick a new name or select from existing players.");
+                return;
+            }
+
+            leaderboard.ensurePlayer(player1);
+            leaderboard.ensurePlayer(player2);
+
+            new SwingUI(player1, player2, leaderboard);
+            dispose();
+        });
+        
+        // LEADERBOARD BUTTON
+        leaderboardBtn.addActionListener(e -> {
+            new LeaderboardUI(leaderboard);
+            dispose();
+        });
+
+        // UI layout
+        p1New.setBorder(BorderFactory.createTitledBorder("New Player 1"));
+        p2New.setBorder(BorderFactory.createTitledBorder("New Player 2"));
+
+        p1Select.setBorder(BorderFactory.createTitledBorder("Existing Player 1"));
+        p2Select.setBorder(BorderFactory.createTitledBorder("Existing Player 2"));
 
         root.add(title);
-        root.add(p1);
-        root.add(p2);
+        root.add(p1Select);
+        root.add(p1New);
+        root.add(p2Select);
+        root.add(p2New);
         root.add(play);
-        root.add(lb);
+        root.add(leaderboardBtn);
 
         add(root);
-
         setVisible(true);
     }
 
-    private void startGame() {
-        String a = p1.getText().trim();
-        String b = p2.getText().trim();
+    // Gets either dropdown selection OR new typed name
+    private String getPlayerName(JComboBox<String> select, JTextField text) {
 
-        if (a.isEmpty() || b.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Enter both names");
-            return;
+        String typed = text.getText().trim();
+
+        if (!typed.isEmpty()) {
+            return typed;
         }
 
-        new SwingUI(a, b, leaderboard);
-        dispose();
+        Object selected = select.getSelectedItem();
+
+        if (selected != null) {
+            return selected.toString();
+        }
+
+        return "";
+    }
+
+    // Load leaderboard names into dropdowns
+    private void refreshDropdowns() {
+
+        Set<String> players = leaderboard.getAllPlayers();
+
+        p1Select.addItem("Select existing player");
+        p2Select.addItem("Select existing player");
+
+        for (String p : players) {
+            p1Select.addItem(p);
+            p2Select.addItem(p);
+        }
+    }
+
+    private void style(JButton b) {
+        b.setForeground(Color.BLACK);
+        b.setBackground(Color.WHITE);
+        b.setOpaque(true);
+        b.setContentAreaFilled(true);
+        b.setFocusPainted(false);
     }
 }
