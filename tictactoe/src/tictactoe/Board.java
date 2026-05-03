@@ -62,7 +62,7 @@ public class Board
     {
     	try
     	{
-    		File file = new File("src/tictactoe/" + this.filename);
+    		File file = new File("src/tictactoe/" + filename);
     		Scanner scanner = new Scanner(file);
     		int xCount = 0, oCount = 0;
     		while(scanner.hasNextLine())
@@ -100,7 +100,7 @@ public class Board
     {
     	try
     	{
-    		File file = new File("src/tictactoe/"+ this.filename);
+    		File file = new File("src/tictactoe/"+ filename);
         	FileWriter writer = new FileWriter(file);
         	String boardContents = "";
         	
