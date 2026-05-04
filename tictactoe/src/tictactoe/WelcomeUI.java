@@ -18,16 +18,16 @@ public class WelcomeUI extends JFrame {
         this.leaderboard = lb;
 
         setTitle("Tic Tac Toe");
-        setSize(450, 350);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel root = new JPanel(new GridLayout(7, 1, 5, 5));
-        root.setBackground(new Color(255, 253, 208));
+        root.setBackground(new Color(253, 251, 212));
 
         JLabel title = new JLabel("WELCOME", JLabel.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 18));
-        title.setForeground(Color.BLACK);
+        title.setFont(new Font("Jungle Adventurer", Font.BOLD, 28));
+        title.setForeground(new Color(0, 202, 177));
 
         // Load existing players into dropdowns
         refreshDropdowns();
@@ -85,11 +85,17 @@ public class WelcomeUI extends JFrame {
         });
 
         // UI layout
-        p1New.setBorder(BorderFactory.createTitledBorder("New Player 1"));
-        p2New.setBorder(BorderFactory.createTitledBorder("New Player 2"));
+        p1New.setBorder(BorderFactory.createTitledBorder(
+        	    BorderFactory.createLineBorder(new Color(0, 202, 177)), "New Player 1"));
 
-        p1Select.setBorder(BorderFactory.createTitledBorder("Existing Player 1"));
-        p2Select.setBorder(BorderFactory.createTitledBorder("Existing Player 2"));
+        	p2New.setBorder(BorderFactory.createTitledBorder(
+        	    BorderFactory.createLineBorder(new Color(0, 202, 177)), "New Player 2"));
+
+        	p1Select.setBorder(BorderFactory.createTitledBorder(
+        	    BorderFactory.createLineBorder(new Color(0, 202, 177)), "Existing Player 1"));
+
+        	p2Select.setBorder(BorderFactory.createTitledBorder(
+        	    BorderFactory.createLineBorder(new Color(0, 202, 177)), "Existing Player 2"));
 
         root.add(title);
         root.add(p1Select);
@@ -136,7 +142,8 @@ public class WelcomeUI extends JFrame {
     }
 
     private void style(JButton b) {
-        b.setForeground(Color.BLACK);
+    	b.setForeground(new Color(0, 202, 177));
+    	b.setFont(new Font("Jungle Adventurer", Font.BOLD, 16));
         b.setBackground(Color.WHITE);
         b.setOpaque(true);
         b.setContentAreaFilled(true);

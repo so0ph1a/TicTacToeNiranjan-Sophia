@@ -31,23 +31,23 @@ public class SwingUI extends JFrame {
 
 	private void buildUi() {
 		setTitle("Tic Tac Toe");
-		setSize(520, 600);
+		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
 		JPanel root = new JPanel(new BorderLayout());
-		root.setBackground(new Color(255, 253, 208));
+		root.setBackground(new Color(253, 251, 212));
 
-		statusLabel.setFont(new Font("Arial", Font.BOLD, 18));
-		statusLabel.setForeground(Color.BLACK);
+		statusLabel.setFont(new Font("Jungle Adventurer", Font.BOLD, 22));
+		statusLabel.setForeground(new Color(0, 202, 177));
 
 		JPanel grid = new JPanel(new GridLayout(3, 3, 5, 5));
-		grid.setBackground(new Color(255, 253, 208));
+		grid.setBackground(new Color(253, 251, 212));
 
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
 				JButton btn = new JButton("");
-
+				btn.setFont(new Font("Jungle Adventurer", Font.BOLD, 80));
 				styleButton(btn);
 
 				int row = r;
@@ -69,7 +69,7 @@ public class SwingUI extends JFrame {
 		});
 
 		JPanel bottom = new JPanel();
-		bottom.setBackground(new Color(255, 253, 208));
+		bottom.setBackground(new Color(253, 251, 212));
 		bottom.add(home);
 
 		root.add(statusLabel, BorderLayout.NORTH);
@@ -80,7 +80,7 @@ public class SwingUI extends JFrame {
 	}
 
 	private void styleButton(JButton b) {
-		b.setForeground(Color.BLACK);
+		b.setForeground(new Color(0, 202, 177));;
 		b.setBackground(Color.WHITE);
 		b.setOpaque(true);
 		b.setContentAreaFilled(true);

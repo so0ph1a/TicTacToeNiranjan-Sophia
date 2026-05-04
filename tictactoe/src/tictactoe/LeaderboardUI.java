@@ -8,24 +8,30 @@ public class LeaderboardUI extends JFrame {
 	public LeaderboardUI(Leaderboard lb) {
 
 		setTitle("Leaderboard");
-		setSize(300, 400);
+		setSize(600, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout()); // IMPORTANT FIX
+		getContentPane().setBackground(new Color(253, 251, 212));
 
-		JTextArea area = new JTextArea();
-		area.setEditable(false);
-		area.setForeground(Color.BLACK);
-		area.setFont(new Font("Arial", Font.PLAIN, 14));
+		JLabel area = new JLabel();
+		area.setBackground(new Color(253, 251, 212));
+		area.setForeground(new Color(0, 202, 177));
+		area.setFont(new Font("Jungle Adventurer", Font.BOLD, 28));
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("LEADERBOARD\n\n");
+		setLayout(new BorderLayout());
+		JLabel title = new JLabel("LEADERBOARD", JLabel.CENTER);
+		title.setFont(new Font("Jungle Adventurer", Font.BOLD, 40));
+		title.setForeground(new Color(0, 202, 177));
 
 		for (String player : lb.getAllPlayers()) {
-			sb.append(player).append(" : ").append(lb.getWins(player)).append("\n");
+			sb.append(String.format("  %-10s %d%n", player, lb.getWins(player)));
 		}
 
-		area.setText(sb.toString());
+		area.setText("<html><pre style='font-family: monospace;'>" 
+		        + sb.toString() 
+		        + "</pre></html>");
 
 		JButton back = new JButton("Back to Home");
 
@@ -36,15 +42,18 @@ public class LeaderboardUI extends JFrame {
 			SwingUtilities.invokeLater(() -> new WelcomeUI(lb)); // safe UI thread
 		});
 
-		add(new JScrollPane(area), BorderLayout.CENTER);
+		add(title, BorderLayout.NORTH);
+		add(area, BorderLayout.CENTER);
 		add(back, BorderLayout.SOUTH);
 
 		setVisible(true);
 	}
 
 	private void style(JButton b) {
-		b.setForeground(Color.BLACK);
+		b.setForeground(new Color(0, 202, 177));
 		b.setBackground(Color.WHITE);
+		b.setFont(new Font("Jungle Adventurer", Font.BOLD, 16));
+		b.setBorder(BorderFactory.createLineBorder(new Color(0, 202, 177), 2));
 		b.setOpaque(true);
 		b.setContentAreaFilled(true);
 		b.setFocusPainted(false);
