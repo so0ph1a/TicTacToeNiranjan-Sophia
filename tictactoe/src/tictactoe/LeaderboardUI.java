@@ -25,9 +25,11 @@ public class LeaderboardUI extends JFrame {
 		title.setFont(new Font("Jungle Adventurer", Font.BOLD, 40));
 		title.setForeground(new Color(0, 202, 177));
 
-		for (String player : lb.getAllPlayers()) {
-			sb.append(String.format("  %-10s %d%n", player, lb.getWins(player)));
-		}
+		lb.getAllPlayers().stream()
+	    .sorted((a, b) -> Integer.compare(lb.getWins(b), lb.getWins(a)))
+	    .forEach(player -> 
+	        sb.append(String.format("  %-10s %d%n", player, lb.getWins(player)))
+	    );
 
 		area.setText("<html><pre style='font-family: monospace;'>" 
 		        + sb.toString() 
