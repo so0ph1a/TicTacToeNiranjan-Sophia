@@ -140,7 +140,7 @@ public class SwingUI extends JFrame {
 
 		JOptionPane.showMessageDialog(this, msg);
 
-		Object[] options = { "Play Again", "Home", "Leaderboard" };
+		Object[] options = { "Play Again!", "Home", "Leaderboard" };
 
 		int choice = JOptionPane.showOptionDialog(this, "What next?", "Game Over", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
